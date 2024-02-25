@@ -1,0 +1,30 @@
+{
+  "profiles": {
+    "SimpleShoppingCart.Web": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.SpaProxy",
+        "DefaultConnection": "Server=LOCALHOST\\MSSQLEXPRESS2017;Database=SimpleShoppingCart;Trusted_Connection=True;MultipleActiveResultSets=false;TrustServerCertificate=True;"
+      },
+      "applicationUrl": "http://localhost:5149"
+    },
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.SpaProxy"
+      }
+    }
+  },
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:13282",
+      "sslPort": 0
+    }
+  }
+}

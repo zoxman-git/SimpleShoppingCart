@@ -1,0 +1,112 @@
+<div *ngIf="!signInSuccess">
+  <h1 style="padding-bottom: 15px;">Hi shopper, please login to begin shopping!</h1>
+
+  <p>
+    Username:
+    <input type="text" [(ngModel)]="username" />
+  </p>
+
+  <p>
+    Password:
+    <input type="password" [(ngModel)]="password" />
+  </p>
+
+  <p>
+    <button class="btn btn-primary" (click)="login()">Login</button>
+  </p>
+
+  <p *ngIf="signInSuccess === false">
+    Sorry, please try signing in again.
+  </p>
+</div>
+
+
+<div *ngIf="signInSuccess">
+  <h1>Hi {{username}}, let's shop!</h1>
+
+  <h4 style="padding-top: 15px; padding-bottom: 5px;">Add items to your cart in any order you like</h4>
+  <hr />
+
+  <h6 style="padding-top: 5px; padding-bottom: 5px;">Example test cases</h6>
+  <div style="padding-bottom: 5px;">
+    <button class="btn btn-primary" style="margin-right: 10px;" (click)="addToCartByProductCodes('ABCDABAA')">ABC DAB AA > $32.40</button>
+    <button class="btn btn-primary" style="margin-right: 10px;" (click)="addToCartByProductCodes('CCCCCCC')">CCC CCC C > $7.25</button>
+    <button class="btn btn-primary" style="margin-right: 10px;" (click)="addToCartByProductCodes('ABCD')">ABC D > $15.40</button>
+
+    <span style="float: right;">
+      <input type="text" placeholder="Enter product codes to add items" style="width: 250px;" value="ABCD" #cartCodesInput />
+      <button class="btn btn-primary" style="margin-left: 10px;" (click)="addToCartByProductCodes(cartCodesInput.value)">Add Product Codes</button>
+    </span>
+  </div>
+  <hr />
+
+  <div>
+    <table class='table table-striped' aria-labelledby="tableLabel">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Code</th>
+          <th>Price</th>
+          <th>Discount</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="products.length > 0">
+        <tr *ngFor="let product of products">
+          <td>{{ product.name }}</td>
+          <td>{{ product.code }}</td>
+          <td style="width: 100px; padding-right: 25px; text-align: right;">{{ product.price | currency:'USD' }}</td>
+          <td style="width: 200px; padding-right: 50px; text-align: right;">
+            <span *ngIf="product.volumeDiscountQuantity !== undefined && product.volumeDiscountPrice !== undefined && product.volumeDiscountQuantity > 0">
+              {{ product.volumeDiscountQuantity }}
+              for
+              {{ (product.volumeDiscountPrice * product.volumeDiscountQuantity) | currency:'USD' }}
+            </span>
+          </td>
+          <td style="width: 200px;"><button class="btn btn-primary" (click)="addToCart(product)">Add To Cart</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h4 style="padding-top: 15px; padding-bottom: 5px;">
+    Calculate your total
+    <button class="btn btn-primary" (click)="clearCart()" style="float: right;" [disabled]="cart.cartItems.length === 0">Clear Cart</button>
+  </h4>
+  <hr />
+  <div>
+    <table class='table table-striped' aria-labelledby="tableLabel">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Code</th>
+          <th>Price</th>
+          <th>Discount</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="cart.cartItems.length > 0">
+        <tr *ngFor="let cartItem of cart.cartItems; let idx = index">
+          <td>{{ cartItem.name }}</td>
+          <td>{{ cartItem.code }}</td>
+          <td style="width: 100px; padding-right: 25px; text-align: right;">{{ cartItem.price | currency:'USD' }}</td>
+          <td style="width: 200px; padding-right: 50px; text-align: right;">
+            <span *ngIf="cartItem.volumeDiscountQuantity !== undefined && cartItem.volumeDiscountPrice !== undefined && cartItem.volumeDiscountQuantity > 0">
+              {{ cartItem.volumeDiscountQuantity }}
+              for
+              {{ (cartItem.volumeDiscountPrice * cartItem.volumeDiscountQuantity) | currency:'USD' }}
+            </span>
+          </td>
+          <td style="width: 200px;"><button class="btn btn-primary" (click)="removeFromCart(idx)">Remove From Cart</button></td>
+        </tr>
+      </tbody>
+    </table>
+    <button class="btn btn-primary" (click)="calculateTotal()" [disabled]="cart.cartItems.length === 0">Calculate Total</button>
+  </div>
+
+  <div style="padding-top: 15px; padding-bottom: 15px;">
+    Total:
+    <span *ngIf="cartTotal > 0">{{ cartTotal | currency:'USD' }}</span>
+  </div>
+
+</div>
